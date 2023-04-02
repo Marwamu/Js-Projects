@@ -6,84 +6,86 @@ const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader');
 
 //Show Loading
-function loading(){
+function loading() {
     loader.hidden = false;
     quoteContainer.hidden = true;
 }
 
 //Hide Loading
-function complete(){
-    if(!loader.hidden){
+function complete() {
+    if (!loader.hidden) {
         quoteContainer.hidden = false;
         loader.hidden = true;
-    }   
+    }
 }
 
 //Get Quote from API
-let i=0;
-// async function getQuote(){
+let i = 0;
+// async function getQuote() {
 //     loading();
-//     const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-//     const apiUrl = 'http://api.forismatic.com/api/1.0/?methot=getQoute&lang=en&format=json';
-//     try{
-//         const response = await fetch(proxyUrl + apiUrl)
+//     const proxyUrl = 'https://whispering-tor-04671.herokuapp.com/'
+//     const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
+//     try {
+//         const response = await fetch(proxyUrl + apiUrl);
 //         const data = await response.json();
-//         if(data.QuoteAuthor === ''){
-//             authorText.textContent = 'Unknown';
-//         } else{
-//             authorText.textContent = data.quoteAuthor;
+//         // If Author is blank, add 'Unknown'
+//         if (data.quoteAuthor === '') {
+//             authorText.innerText = 'Unknown';
+//         } else {
+//             authorText.innerText = data.quoteAuthor;
 //         }
-//         if(data.quoteText.length > 120){
-//             quoteText.classList.add('long-quote')
-//         }else{
-//             quoteText.classList.remove('long-quote')
+//         // Reduce font size for long quotes
+//         if (data.quoteText.length > 120) {
+//             quoteText.classList.add('long-quote');
+//         } else {
+//             quoteText.classList.remove('long-quote');
 //         }
-//         quoteText.innerHTML = data.quoteText;
-//         //Stop loading, show Quote
+//         quoteText.innerText = data.quoteText;
+//         // Stop Loader, Show Quote
 //         complete();
-    
 //     } catch (error) {
 //         getQuote();
-//         console.log('Whoops, no quote', error);
 //     }
 // }
 
-async function getQuote(){
+
+async function getQuote() {
     loading();
-    try{
+    try {
         fetch("https://type.fit/api/quotes")
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        if(data[i].text === ''){
-            authorText.textContent = 'Unknown';
-        } else{
-            authorText.textContent = data[i].author;
-        }
-        if(data[i].text.length > 120){
-            quoteText.classList.add('long-quote')
-        }else{
-            quoteText.classList.remove('long-quote')
-        }
-        quoteText.innerHTML = data[i].text;
-        console.log(data[i]);
-        i++;
-        complete();
-    });
+            .then(function (response) {
+                return response.json();
+
+            })
+            .then(function (data) {
+                if (data[i].author === null) {
+                    authorText.textContent = 'Unknown';
+                } else {
+                    authorText.textContent = data[i].author;
+                }
+                if (data[i].text.length > 120) {
+                    quoteText.classList.add('long-quote')
+                } else {
+                    quoteText.classList.remove('long-quote')
+                }
+                quoteText.innerHTML = data[i].text;
+                console.log(data[i]);
+                i++;
+                complete();
+            });
     }
-    catch(error){
+    catch (error) {
         getQuote();
-    console.log(error);
+        console.log(error);
     }
 }
 
 //Tweet Quote
-function tweetQuote(){
+function tweetQuote() {
     const quote = quoteText.innerHTML;
     const author = authorText.innerHTML;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${quote} - ${author}`;
-    window.open(twitterUrl , '_blank')
+    window.open(twitterUrl, '_blank')
 }
 
 //Event Linseners
