@@ -56,16 +56,17 @@ const getLastSlide = () => {
     slider.style.transform = `translateX(${-800 * (length - 1)}px)`
     sliderNumber = length;
 }
-
-right.addEventListener('click', () => {
-    sliderNumber < length ? nextSlide() : getFirstSlide();
+const changeBg = () => {
     resetBg()
     buttons[sliderNumber - 1].style.backgroundColor = 'white'
+}
+right.addEventListener('click', () => {
+    sliderNumber < length ? nextSlide() : getFirstSlide();
+    changeBg();
 })
 left.addEventListener('click', () => {
     sliderNumber > 1 ? prevSlide() : getLastSlide();
-    resetBg()
-    buttons[sliderNumber - 1].style.backgroundColor = 'white'
+    changeBg();
 })
 
 
