@@ -10,7 +10,7 @@ const data = [
         id: 11,
         name: "Invicta Men's Pro Diver 2",
         img: "https://m.media-amazon.com/images/I/71e04Q53xlL._AC_UY879_.jpg",
-        price: 74,
+        price: 120,
         cat: "Dress",
     },
     {
@@ -96,12 +96,30 @@ const setCategories = () => {
     ).join("")
     categoriesContainer.addEventListener("click", (e) => {
         const selectedCat = e.target.innerHTML;
-        console.log(selectedCat);
 
         selectedCat === "All" ? displayProducts(data) : displayProducts(data.filter(item => item.cat === selectedCat)
         )
 
     })
-
 }
+
+const setPrice = () => {
+    const priceList = data.map(item => item.price)
+    const maxPrice = Math.max(...priceList);
+    const minPrice = Math.min(...priceList);
+    priceRange.min = minPrice
+    priceRange.max = maxPrice
+    priceRange.value = maxPrice
+    priceValue.textContent = '$' + maxPrice
+
+
+    priceRange.addEventListener('input', (e) => {
+        priceValue.textContent = '$' + e.target.value
+
+        displayProducts(data.filter(item => item.price <= e.target.value))
+    })
+}
+
+
 setCategories();
+setPrice()
