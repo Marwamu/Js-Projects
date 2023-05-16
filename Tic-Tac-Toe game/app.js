@@ -19,6 +19,7 @@ const winningCombos = [
 const updateTurn = () => {
     turn = turn === 'X' ? 'O' : 'X'
     info.innerHTML = `${turn}'s turn`
+    document.documentElement.style.setProperty("--hue", turn === "X" ? 10 : 200);
 }
 
 // Craete the gameboard
@@ -31,6 +32,13 @@ const createGameBoard = () => {
     info.innerHTML = `${turn}'s turn`
 
     gameBoard.addEventListener('click', handleGameboardClick)
+    gameBoard.addEventListener('mouseenter', handleMouseEnter)
+    const allTitles = gameBoard.querySelectorAll(".title");
+    allTitles.forEach((t) => {
+        t.addEventListener("mouseenter", handleMouseEnter)
+        t.addEventListener("mouseleave", handleMouseLeave)
+    }
+    )
 }
 
 const checkScore = (e) => {
@@ -56,9 +64,21 @@ const handleGameboardClick = (e) => {
     const valueExists = e.target.dataset.value;
     if (!valueExists) {
         e.target.dataset.value = turn;
+        e.target.style.setProperty("--hue", turn === "X" ? 10 : 200);
         checkScore()
     }
 }
 
+const handleMouseEnter = (e) => {
+    const valueExists = e.target.dataset.value;
+    if (!valueExists) {
+        e.target.dataset.hover = turn;
+        e.target.style.setProperty("--hue", turn === "X" ? 10 : 200);
+    }
+}
+
+const handleMouseLeave = (e) => {
+    e.target.dataset.hover = "";
+}
 
 createGameBoard()
