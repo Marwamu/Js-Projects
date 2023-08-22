@@ -1,5 +1,15 @@
 // Canvas
 const { body } = document;
+const canvas=document.createElement('canvas');
+const context = canvas.getContext("2d");
+
+context.lineWidth = 15;
+
+context.beginPath();
+context.moveTo(20, 20);
+context.lineTo(130, 130);
+context.rect(40, 40, 70, 70);
+context.stroke();
 
 
 const width = 500;
